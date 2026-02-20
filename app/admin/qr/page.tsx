@@ -1,8 +1,22 @@
+"use client";
+import dynamic from "next/dynamic";
+
+const MenuQRCode = dynamic(() => import("../components/MenuQRCode"), { 
+  ssr: false 
+});
+
 export default function QRCodePage() {
-    return(
-        <div>
-            <h1>QR Code Page</h1>
-            <p>This is the QR code page content.</p>
+    const menuUrl = "http://localhost:3000/menu";
+
+    return (
+        <div className="flex flex-col items-center p-6">
+            <h1 className="text-2xl font-bold mb-4">Menu QR Code</h1>
+            <div className="p-4 bg-white shadow-lg rounded-xl">
+                <MenuQRCode url={menuUrl} />
+            </div>
+            <button onClick={() => window.print()} className="mt-4 border p-2">
+                Print
+            </button>
         </div>
     );
-};
+}

@@ -39,7 +39,7 @@ export default async function MenuPage() {
                                     <p className="font-medium">{item.name}</p>
                                     <p className="text-sm text-gray-500">{item.description}</p>
                                 </div>
-                                <span className="font-bold">${item.price}</span>
+                                <span className="font-bold">{item.price} PKR</span>
                             </div>
                         ))}
                     </div>
