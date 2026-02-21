@@ -1,19 +1,19 @@
 import { useMutation } from '@tanstack/react-query';
 import {
-  CreateItemPayload,
-  DeleteItemPayload,
-  UpdateItemPayload,
-} from '../types/items.types';
-import {
   createItemAction,
   deleteItemAction,
   updateItemAction,
 } from '../actions/items.actions';
 import { toast } from 'sonner';
+import {
+  CreateItemInput,
+  UpdateItemInput,
+  DeleteItemInput,
+} from '../schema/items.schema';
 
 export function useCreateItem() {
   return useMutation({
-    mutationFn: (payload: CreateItemPayload) => createItemAction(payload),
+    mutationFn: (payload: CreateItemInput) => createItemAction(payload),
     onSuccess: () => toast.success('Item created successfully!'),
     onError: (error) => toast.error(error.message),
   });
@@ -21,7 +21,7 @@ export function useCreateItem() {
 
 export function useUpdateItem() {
   return useMutation({
-    mutationFn: (payload: UpdateItemPayload) => updateItemAction(payload),
+    mutationFn: (payload: UpdateItemInput) => updateItemAction(payload),
     onSuccess: () => toast.success('Item updated successfully!'),
     onError: (error) => toast.error(error.message),
   });
@@ -29,7 +29,7 @@ export function useUpdateItem() {
 
 export function useDeleteItem() {
   return useMutation({
-    mutationFn: (payload: DeleteItemPayload) => deleteItemAction(payload),
+    mutationFn: (payload: DeleteItemInput) => deleteItemAction(payload),
     onSuccess: () => toast.success('Item deleted successfully!'),
     onError: (error) => toast.error(error.message),
   });

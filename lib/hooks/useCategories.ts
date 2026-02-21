@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import {
-  CreateCategoryPayload,
-  DeleteCategoryPayload,
-  UpdateCategoryPayload,
-} from '../types/categories.types';
+  CreateCategoryInput,
+  DeleteCategoryInput,
+  UpdateCategoryInput,
+} from '../schema/categories.schema';
 import {
   createCategoryAction,
   deleteCategoryAction,
@@ -13,8 +13,7 @@ import { toast } from 'sonner';
 
 export function useCreateCategory() {
   return useMutation({
-    mutationFn: (payload: CreateCategoryPayload) =>
-      createCategoryAction(payload),
+    mutationFn: (payload: CreateCategoryInput) => createCategoryAction(payload),
     onSuccess: () => toast.success('Category created successfully!'),
     onError: (error) => toast.error(error.message),
   });
@@ -22,8 +21,7 @@ export function useCreateCategory() {
 
 export function useUpdateCategory() {
   return useMutation({
-    mutationFn: (payload: UpdateCategoryPayload) =>
-      updateCategoryAction(payload),
+    mutationFn: (payload: UpdateCategoryInput) => updateCategoryAction(payload),
     onSuccess: () => toast.success('Category updated successfully!'),
     onError: (error) => toast.error(error.message),
   });
@@ -31,8 +29,7 @@ export function useUpdateCategory() {
 
 export function useDeleteCategory() {
   return useMutation({
-    mutationFn: (payload: DeleteCategoryPayload) =>
-      deleteCategoryAction(payload),
+    mutationFn: (payload: DeleteCategoryInput) => deleteCategoryAction(payload),
     onSuccess: () => toast.success('Category deleted successfully!'),
     onError: (error) => toast.error(error.message),
   });
