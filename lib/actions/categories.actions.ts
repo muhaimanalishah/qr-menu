@@ -9,28 +9,35 @@ import {
 import {
   CreateCategoryPayload,
   DeleteCategoryPayload,
+  UpdateCategoryPayload,
 } from '../types/categories.types';
 
 export async function createCategoryAction(payload: CreateCategoryPayload) {
   const { error } = await createCategory(payload);
 
-  if (!error) {
-    revalidatePath('/admin');
+  if (error) {
+    return { error: error.message || 'Failed to create category' };
   }
+
+  revalidatePath('/admin');
 }
 
-export async function updateCategoryAction(payload: CreateCategoryPayload) {
+export async function updateCategoryAction(payload: UpdateCategoryPayload) {
   const { error } = await updateCategory(payload);
 
-  if (!error) {
-    revalidatePath('/admin');
+  if (error) {
+    return { error: error.message || 'Failed to update category' };
   }
+
+  revalidatePath('/admin');
 }
 
 export async function deleteCategoryAction({ id }: DeleteCategoryPayload) {
   const { error } = await deleteCategory({ id });
 
-  if (!error) {
-    revalidatePath('/admin');
+  if (error) {
+    return { error: error.message || 'Failed to delete category' };
   }
+
+  revalidatePath('/admin');
 }
