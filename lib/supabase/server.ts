@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 
 /**
  * Especially important if using Fluid compute: Don't put this client in a
@@ -30,5 +31,12 @@ export async function createClient() {
         },
       },
     }
+  );
+}
+
+export function createServiceClient() {
+  return createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SECRET_KEY!
   );
 }

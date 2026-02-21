@@ -55,6 +55,7 @@ export function SignInForm({
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   {...form.register('email')}
+                  id="email"
                   type="email"
                   placeholder="m@example.com"
                   required
@@ -70,7 +71,7 @@ export function SignInForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input {...form.register('password')} type="password" required />
+                <Input {...form.register('password')} id="password" type="password" required />
               </Field>
               <Field>
                 <Button type="submit" disabled={isPending}>

@@ -1,6 +1,6 @@
-"use server"
+'use server';
 
-import { signIn, signUp } from '../data/auth.dal';
+import { signIn, signOut, signUp } from '../data/auth.dal';
 import { createUser, getUserById } from '../data/users.dal';
 import {
   signInInput,
@@ -8,6 +8,7 @@ import {
   signUpInput,
   signUpSchema,
 } from '../schema/auth.schema';
+import { createServiceClient } from '../supabase/server';
 
 export async function emailSignUpAction(payload: signUpInput) {
   const parsed = signUpSchema.safeParse(payload);
@@ -15,7 +16,6 @@ export async function emailSignUpAction(payload: signUpInput) {
 
   const { data, error } = await signUp(parsed.data);
   if (error || !data.user) {
-    console.error(error);
     throw new Error('Failed to sign up');
   }
 
@@ -25,7 +25,8 @@ export async function emailSignUpAction(payload: signUpInput) {
     email: parsed.data.email,
   });
   if (userError) {
-    console.error(userError);
+    const serviceClient = createServiceClient();
+    await serviceClient.auth.admin.deleteUser(data.user.id);
     throw new Error('Failed to create user');
   }
 }
@@ -41,5 +42,13 @@ export async function emailSignInAction(payload: signInInput) {
   const user = await getUserById(data.session.user.id);
   if (user.error || !user.data) throw new Error('User not found');
 
-  return { ...data.session.user, ...user.data };
+  return {
+    id: data.session.user.id,
+    email: data.session.user.email,
+    name: user.data.name,
+  };
+}
+
+export async function signOutAction() {
+  await signOut();
 }
