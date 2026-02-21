@@ -1,9 +1,8 @@
-interface Items {
-    id: string;
-    name: string;
-    price: number;
-    category_id: string;
-    available: boolean;
-}
+import { Database } from './supabase.types';
 
-export type { Items };
+type Item = Database['public']['Tables']['items']['Row'];
+type CreateItemPayload = Database['public']['Tables']['items']['Insert'];
+type UpdateItemPayload = Database['public']['Tables']['items']['Update'];
+type DeleteItemPayload = { id: string };
+
+export type { Item, CreateItemPayload, UpdateItemPayload, DeleteItemPayload };

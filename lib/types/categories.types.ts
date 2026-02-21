@@ -1,7 +1,15 @@
-interface Category {
-    id: string;
-    name: string;
-    created_at: string;
-}
+import { Database } from './supabase.types';
 
-export type { Category };
+type Category = Database['public']['Tables']['categories']['Row'];
+type CreateCategoryPayload =
+  Database['public']['Tables']['categories']['Insert'];
+type UpdateCategoryPayload =
+  Database['public']['Tables']['categories']['Update'];
+type DeleteCategoryPayload = { id: string };
+
+export type {
+  Category,
+  CreateCategoryPayload,
+  UpdateCategoryPayload,
+  DeleteCategoryPayload,
+};
