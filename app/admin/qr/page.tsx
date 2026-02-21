@@ -1,7 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 
-const MenuQRCode = dynamic(() => import('../components/MenuQRCode'), {
+const MenuQRCode = dynamic(() => import('@/components/admin/MenuQRCode'), {
   ssr: false,
 });
 
