@@ -5,39 +5,34 @@ import {
   createCategory,
   deleteCategory,
   updateCategory,
-} from '../data-access/categories.dal';
-import {
-  CreateCategoryPayload,
-  DeleteCategoryPayload,
-  UpdateCategoryPayload,
-} from '../types/categories.types';
+} from '../data/categories.dal';
+import { createCategorySchema, deleteCategorySchema, updateCategorySchema } from '../schema/categories.schema';
 
-export async function createCategoryAction(payload: CreateCategoryPayload) {
-  const { error } = await createCategory(payload);
-
-  if (error) {
-    return { error: error.message || 'Failed to create category' };
-  }
+export async function createCategoryAction(payload: unknown) {
+  const parsed = createCategorySchema.safeParse(payload);
+  if (!parsed.success) throw new Error('Invalid payload');
+  const { error } = await createCategory(parsed.data);
+  if (error) throw new Error('Failed to create category');
 
   revalidatePath('/admin');
 }
 
-export async function updateCategoryAction(payload: UpdateCategoryPayload) {
-  const { error } = await updateCategory(payload);
+export async function updateCategoryAction(payload: unknown) {
+  const parsed = updateCategorySchema.safeParse(payload);
+  if (!parsed.success) throw new Error('Invalid payload');
 
-  if (error) {
-    return { error: error.message || 'Failed to update category' };
-  }
+  const { error } = await updateCategory(parsed.data);
+  if (error) throw new Error('Failed to update category');
 
   revalidatePath('/admin');
 }
 
-export async function deleteCategoryAction({ id }: DeleteCategoryPayload) {
-  const { error } = await deleteCategory({ id });
+export async function deleteCategoryAction(payload: unknown) {
+  const parsed = deleteCategorySchema.safeParse(payload);
+  if (!parsed.success) throw new Error('Invalid payload');
 
-  if (error) {
-    return { error: error.message || 'Failed to delete category' };
-  }
+  const { error } = await deleteCategory(parsed.data);
+  if (error) throw new Error('Failed to delete category');
 
   revalidatePath('/admin');
 }

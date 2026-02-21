@@ -1,39 +1,35 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import {
-  CreateItemPayload,
-  UpdateItemPayload,
-  DeleteItemPayload,
-} from '../types/items.types';
-import { createItem, updateItem, deleteItem } from '../data-access/items.dal';
+import { createItem, updateItem, deleteItem } from '../data/items.dal';
+import { createItemSchema, deleteItemSchema, updateItemSchema } from '../schema/items.schema';
 
-export async function createItemAction(payload: CreateItemPayload) {
-  const { error } = await createItem(payload);
+export async function createItemAction(payload: unknown) {
+  const parsed = createItemSchema.safeParse(payload);
+  if (!parsed.success) throw new Error('Invalid payload');
 
-  if (error) {
-    return { error: error.message || 'Failed to create item' };
-  }
+  const { error } = await createItem(parsed.data);
+  if (error) throw new Error('Failed to create item');
 
   revalidatePath('/admin');
 }
 
-export async function updateItemAction(payload: UpdateItemPayload) {
-  const { error } = await updateItem(payload);
+export async function updateItemAction(payload: unknown) {
+  const parsed = updateItemSchema.safeParse(payload);
+  if (!parsed.success) throw new Error('Invalid payload');
 
-  if (error) {
-    return { error: error.message || 'Failed to update item' };
-  }
+  const { error } = await updateItem(parsed.data);
+  if (error) throw new Error('Failed to update item');
 
   revalidatePath('/admin');
 }
 
-export async function deleteItemAction(payload: DeleteItemPayload) {
-  const { error } = await deleteItem(payload);
-
-  if (error) {
-    return { error: error.message || 'Failed to delete item' };
-  }
+export async function deleteItemAction(payload: unknown) {
+  const parsed = deleteItemSchema.safeParse(payload);
+  if (!parsed.success) throw new Error('Invalid payload');
+  
+  const { error } = await deleteItem(parsed.data);
+  if (error) throw new Error('Failed to delete item');
 
   revalidatePath('/admin');
 }

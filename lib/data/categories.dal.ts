@@ -5,6 +5,11 @@ import {
   UpdateCategoryPayload,
 } from '../types/categories.types';
 
+export async function getCategories() {
+  const supabase = await createClient();
+  return await supabase.from('categories').select('*');
+}
+
 export async function createCategory(payload: CreateCategoryPayload) {
   const supabase = await createClient();
   return await supabase.from('categories').insert(payload);

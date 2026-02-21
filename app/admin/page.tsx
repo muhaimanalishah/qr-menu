@@ -1,13 +1,11 @@
-import CategorySection from './components/CategorySection';
-import ItemSection from './components/ItemSection';
-import { createClient } from '@/lib/supabase/server';
+import CategorySection from '@/components/admin/CategorySection';
+import ItemSection from '@/components/admin/ItemSection';
+import { getCategories } from '@/lib/data/categories.dal';
+import { getItems } from '@/lib/data/items.dal';
 
 export default async function AdminPage() {
-  const supabase = await createClient();
-
   const [catRes, itemRes] = await Promise.all([
-    supabase.from('categories').select('*'),
-    supabase.from('items').select('*'),
+    getCategories(), getItems()
   ]);
 
   const categories = catRes.data || [];
