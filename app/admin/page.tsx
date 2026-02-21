@@ -9,9 +9,6 @@ export default async function AdminPage() {
   const categories = catRes.data || [];
   const items = itemRes.data || [];
 
-  console.log('Categories:', categories);
-  console.log('Items:', items);
-
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">
       <h1 className="text-4xl font-black mb-10">Admin Dashboard</h1>
