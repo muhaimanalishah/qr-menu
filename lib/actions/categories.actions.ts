@@ -6,7 +6,11 @@ import {
   deleteCategory,
   updateCategory,
 } from '../data/categories.dal';
-import { createCategorySchema, deleteCategorySchema, updateCategorySchema } from '../schema/categories.schema';
+import {
+  createCategorySchema,
+  deleteCategorySchema,
+  updateCategorySchema,
+} from '../schema/categories.schema';
 
 export async function createCategoryAction(payload: unknown) {
   const parsed = createCategorySchema.safeParse(payload);

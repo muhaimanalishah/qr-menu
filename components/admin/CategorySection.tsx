@@ -1,7 +1,13 @@
 'use client';
 
-import { useCreateCategory, useDeleteCategory } from '@/lib/hooks/useCategories';
-import { CreateCategoryInput, createCategorySchema } from '@/lib/schema/categories.schema';
+import {
+  useCreateCategory,
+  useDeleteCategory,
+} from '@/lib/hooks/useCategories';
+import {
+  CreateCategoryInput,
+  createCategorySchema,
+} from '@/lib/schema/categories.schema';
 import { Category } from '@/lib/types/categories.types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -11,23 +17,23 @@ export default function CategorySection({
 }: {
   categories: Category[];
 }) {
-  const {mutate: createCategory, isPending: isCreating} = useCreateCategory();
-  const {mutate: deleteCategory, isPending: isDeleting} = useDeleteCategory();
+  const { mutate: createCategory, isPending: isCreating } = useCreateCategory();
+  const { mutate: deleteCategory, isPending: isDeleting } = useDeleteCategory();
 
   const form = useForm<CreateCategoryInput>({
     resolver: zodResolver(createCategorySchema),
     defaultValues: {
       name: '',
     },
-  })
+  });
 
   const onSubmit = (data: CreateCategoryInput) => {
     createCategory(data, {
       onSuccess: () => {
         form.reset();
-      }
+      },
     });
-  }
+  };
 
   return (
     <section className="p-6 border rounded-xl bg-white shadow-sm">
@@ -40,18 +46,27 @@ export default function CategorySection({
           placeholder="New category name..."
           className="border p-2 rounded flex-1"
         />
-        <button type="submit" disabled={isCreating} className="bg-black text-white px-4 py-2 rounded">
+        <button
+          type="submit"
+          disabled={isCreating}
+          className="bg-black text-white px-4 py-2 rounded"
+        >
           {isCreating ? 'Adding...' : 'Add'}
         </button>
         {form.formState.errors.name && (
-          <p className="text-red-500 text-sm">{form.formState.errors.name.message}</p>
+          <p className="text-red-500 text-sm">
+            {form.formState.errors.name.message}
+          </p>
         )}
       </form>
 
       {/* READ & DELETE */}
       <div className="space-y-2">
         {categories.map((cat) => (
-          <div key={cat.id} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+          <div
+            key={cat.id}
+            className="flex justify-between items-center p-3 bg-gray-50 rounded"
+          >
             <span>{cat.name}</span>
             <button
               onClick={() => deleteCategory({ id: cat.id })}

@@ -1,6 +1,10 @@
 'use client';
 
-import { useCreateItem, useDeleteItem, useUpdateItem } from '@/lib/hooks/useItems';
+import {
+  useCreateItem,
+  useDeleteItem,
+  useUpdateItem,
+} from '@/lib/hooks/useItems';
 import { CreateItemInput, createItemSchema } from '@/lib/schema/items.schema';
 import { Category } from '@/lib/types/categories.types';
 import { Item } from '@/lib/types/items.types';
@@ -52,7 +56,10 @@ export default function ItemSection({ items, categories }: ItemSectionProps) {
           placeholder="Price"
           className="border p-2 rounded"
         />
-        <select {...form.register('category_id')} className="border p-2 rounded">
+        <select
+          {...form.register('category_id')}
+          className="border p-2 rounded"
+        >
           <option value="">Select Category</option>
           {categories.map((cat) => (
             <option key={cat.id} value={cat.id}>
@@ -82,7 +89,8 @@ export default function ItemSection({ items, categories }: ItemSectionProps) {
               <p className="font-semibold">{item.name}</p>
               <p className="text-sm text-gray-500">
                 {item.price.toFixed(2)} PKR —{' '}
-                {categories.find((c) => c.id === item.category_id)?.name || 'Uncategorized'}
+                {categories.find((c) => c.id === item.category_id)?.name ||
+                  'Uncategorized'}
               </p>
             </div>
 
@@ -94,7 +102,9 @@ export default function ItemSection({ items, categories }: ItemSectionProps) {
                 <input
                   type="checkbox"
                   checked={item.available ?? false}
-                  onChange={() => updateItem({ id: item.id, available: !item.available })}
+                  onChange={() =>
+                    updateItem({ id: item.id, available: !item.available })
+                  }
                   className="w-4 h-4 accent-blue-600"
                 />
               </label>

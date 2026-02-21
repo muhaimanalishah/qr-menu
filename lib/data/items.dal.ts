@@ -10,7 +10,6 @@ export async function getItems() {
   return await supabase.from('items').select('*');
 }
 
-
 export async function createItem(payload: CreateItemPayload) {
   const supabase = await createClient();
   return await supabase.from('items').insert([payload]);
