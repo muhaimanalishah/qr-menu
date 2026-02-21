@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,11 +16,29 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { useEmailSignIn } from '@/lib/hooks/useAuth';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signInInput, signInSchema } from '@/lib/schema/auth.schema';
 
-export function LoginForm({
+export function SignInForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const { mutate, isPending } = useEmailSignIn();
+
+  const form = useForm({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
+
+  const onSubmit = (data: signInInput) => {
+    mutate(data, {onSuccess: () => form.reset()});
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -29,12 +49,12 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
-                  id="email"
+                  {...form.register('email')}
                   type="email"
                   placeholder="m@example.com"
                   required
@@ -50,12 +70,11 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input {...form.register('password')} type="password" required />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
-                <Button variant="outline" type="button">
-                  Login with Google
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? 'Logging in...' : 'Login'}
                 </Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <a href="/signup">Sign up</a>

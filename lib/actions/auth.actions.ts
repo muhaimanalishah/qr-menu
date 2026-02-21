@@ -1,3 +1,5 @@
+"use server"
+
 import { signIn, signUp } from '../data/auth.dal';
 import { createUser, getUserById } from '../data/users.dal';
 import {
@@ -7,22 +9,28 @@ import {
   signUpSchema,
 } from '../schema/auth.schema';
 
-export async function signUpWithEmailAction(payload: signUpInput) {
+export async function emailSignUpAction(payload: signUpInput) {
   const parsed = signUpSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
   const { data, error } = await signUp(parsed.data);
-  if (error || !data.user) throw new Error('Failed to sign up');
+  if (error || !data.user) {
+    console.error(error);
+    throw new Error('Failed to sign up');
+  }
 
   const { error: userError } = await createUser({
     id: data.user.id,
     name: parsed.data.name,
     email: parsed.data.email,
   });
-  if (userError) throw new Error('Failed to create user');
+  if (userError) {
+    console.error(userError);
+    throw new Error('Failed to create user');
+  }
 }
 
-export async function signInWithEmailAction(payload: signInInput) {
+export async function emailSignInAction(payload: signInInput) {
   const parsed = signInSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
