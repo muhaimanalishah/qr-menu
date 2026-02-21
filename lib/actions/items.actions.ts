@@ -9,7 +9,7 @@ import {
 import {
   createItem,
   updateItem,
-  deleteMenuItem,
+  deleteItem,
 } from '../data-access/items.dal';
 
 export async function createItemAction(payload: CreateItemPayload) {
@@ -27,7 +27,7 @@ export async function updateItemAction(payload: UpdateItemPayload) {
 }
 
 export async function deleteItemAction(payload: DeleteItemPayload) {
-  const { error } = await deleteMenuItem(payload);
+  const { error } = await deleteItem(payload);
   if (!error) {
     revalidatePath('/admin/items');
   }

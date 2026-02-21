@@ -15,7 +15,7 @@ export async function updateItem({ id, ...payload }: UpdateItemPayload) {
   return await supabase.from('items').update(payload).eq('id', id);
 }
 
-export async function deleteMenuItem({ id }: DeleteItemPayload) {
+export async function deleteItem({ id }: DeleteItemPayload) {
   const supabase = await createClient();
   return await supabase.from('items').delete().eq('id', id);
 }
