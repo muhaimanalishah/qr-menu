@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -33,11 +33,11 @@ export function SignInForm({
       email: '',
       password: '',
     },
-  })
+  });
 
   const onSubmit = (data: signInInput) => {
-    mutate(data, {onSuccess: () => form.reset()});
-  }
+    mutate(data, { onSuccess: () => form.reset() });
+  };
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -71,7 +71,12 @@ export function SignInForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input {...form.register('password')} id="password" type="password" required />
+                <Input
+                  {...form.register('password')}
+                  id="password"
+                  type="password"
+                  required
+                />
               </Field>
               <Field>
                 <Button type="submit" disabled={isPending}>
