@@ -4,7 +4,7 @@ type Category = Database['public']['Tables']['categories']['Row'];
 type CreateCategoryPayload =
   Database['public']['Tables']['categories']['Insert'];
 type UpdateCategoryPayload =
-  Database['public']['Tables']['categories']['Update'];
+  Database['public']['Tables']['categories']['Update'] & { id: string };
 type DeleteCategoryPayload = { id: string };
 
 export type {
