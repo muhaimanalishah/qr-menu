@@ -12,3 +12,12 @@ export async function createUser({
   const supabase = await createClient();
   return await supabase.from('users').insert({ id, name, email });
 }
+
+export async function getUserById(id: string) {
+  const supabase = await createClient();
+  return await supabase
+    .from('users')
+    .select('name, email')
+    .eq('id', id)
+    .single();
+}

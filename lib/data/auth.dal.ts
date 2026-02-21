@@ -1,4 +1,4 @@
-import { signUpInput, loginInput } from '../schema/auth.schema';
+import { signUpInput, signInInput } from '../schema/auth.schema';
 import { createClient } from '../supabase/server';
 
 export async function signUp({ email, password }: signUpInput) {
@@ -9,7 +9,7 @@ export async function signUp({ email, password }: signUpInput) {
   });
 }
 
-export async function signIn({ email, password }: loginInput) {
+export async function signIn({ email, password }: signInInput) {
   const supabase = await createClient();
   return await supabase.auth.signInWithPassword({ email, password });
 }
