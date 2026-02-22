@@ -1,14 +1,26 @@
 import { createClient } from '../supabase/server';
+import { getAuthenticatedUser } from './auth.dal';
 import {
   CreateCategoryInput,
   UpdateCategoryInput,
   DeleteCategoryInput,
 } from '../schema/categories.schema';
-import { getAuthenticatedUser } from './auth.dal';
 
-export async function getCategories() {
+export async function getCategories(restaurant_id: string) {
   const supabase = await createClient();
-  return await supabase.from('categories').select('*');
+  return await supabase
+    .from('categories')
+    .select('*')
+    .eq('restaurant_id', restaurant_id);
+}
+
+export async function getCategoryById(id: string) {
+  const supabase = await createClient();
+  return await supabase
+    .from('categories')
+    .select('*')
+    .eq('id', id)
+    .single();
 }
 
 export async function createCategory(payload: CreateCategoryInput) {
