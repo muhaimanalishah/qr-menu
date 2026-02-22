@@ -4,7 +4,7 @@ import {
   createItem,
   deleteItem,
   getItemById,
-  getItems,
+  getItemsByCategory,
   updateItem,
 } from '../data/items.dal';
 import {
@@ -16,8 +16,8 @@ import {
   updateItemSchema,
 } from '../schema/items.schema';
 
-export async function getItemsAction(category_id: string) {
-  const { data, error } = await getItems(category_id);
+export async function getItemsByCategoryAction(category_id: string) {
+  const { data, error } = await getItemsByCategory(category_id);
   if (error) throw new Error(error.message);
   return data;
 }

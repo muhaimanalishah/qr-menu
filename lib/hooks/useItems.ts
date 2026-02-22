@@ -3,14 +3,14 @@ import {
   createItemAction,
   deleteItemAction,
   getItemByIdAction,
-  getItemsAction,
+  getItemsByCategoryAction,
   updateItemAction,
 } from '../actions/items.actions';
 
 export function useItems(category_id: string) {
   return useQuery({
     queryKey: ['items', category_id],
-    queryFn: () => getItemsAction(category_id),
+    queryFn: () => getItemsByCategoryAction(category_id),
   });
 }
 

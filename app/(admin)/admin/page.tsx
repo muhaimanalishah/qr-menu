@@ -1,10 +1,10 @@
 import CategorySection from '@/components/admin/CategorySection';
 import ItemSection from '@/components/admin/ItemSection';
 import { getCategories } from '@/lib/data/categories.dal';
-import { getItems } from '@/lib/data/items.dal';
+import { getItemsByCategory } from '@/lib/data/items.dal';
 
 export default async function AdminPage() {
-  const [catRes, itemRes] = await Promise.all([getCategories(), getItems()]);
+  const [catRes, itemRes] = await Promise.all([getCategories(), getItemsByCategory()]);
 
   const categories = catRes.data || [];
   const items = itemRes.data || [];

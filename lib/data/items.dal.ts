@@ -6,12 +6,20 @@ import {
   DeleteItemInput,
 } from '../schema/items.schema';
 
-export async function getItems(category_id: string) {
+export async function getItemsByCategory(category_id: string) {
   const supabase = await createClient();
   return await supabase
     .from('items')
     .select('*')
     .eq('category_id', category_id);
+}
+
+export async function getItemsByRestaurant(restaurant_id: string) {
+  const supabase = await createClient();
+  return await supabase
+    .from('items')
+    .select('*, categories!inner(restaurant_id)')
+    .eq('categories.restaurant_id', restaurant_id);
 }
 
 export async function getItemById(id: string) {
