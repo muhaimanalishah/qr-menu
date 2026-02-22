@@ -1,39 +1,56 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { createItem, updateItem, deleteItem } from '../data/items.dal';
 import {
+  createItem,
+  deleteItem,
+  getItemById,
+  getItems,
+  updateItem,
+} from '../data/items.dal';
+import {
+  CreateItemInput,
   createItemSchema,
+  DeleteItemInput,
   deleteItemSchema,
+  UpdateItemInput,
   updateItemSchema,
 } from '../schema/items.schema';
 
-export async function createItemAction(payload: unknown) {
+export async function getItemsAction(category_id: string) {
+  const { data, error } = await getItems(category_id);
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function getItemByIdAction(id: string) {
+  const { data, error } = await getItemById(id);
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function createItemAction(payload: CreateItemInput) {
   const parsed = createItemSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
-  const { error } = await createItem(parsed.data);
-  if (error) throw new Error('Failed to create item');
-
-  revalidatePath('/admin');
+  const { data, error } = await createItem(parsed.data);
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-export async function updateItemAction(payload: unknown) {
+export async function updateItemAction(payload: UpdateItemInput) {
   const parsed = updateItemSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
-  const { error } = await updateItem(parsed.data);
-  if (error) throw new Error('Failed to update item');
-
-  revalidatePath('/admin');
+  const { data, error } = await updateItem(parsed.data);
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-export async function deleteItemAction(payload: unknown) {
+export async function deleteItemAction(payload: DeleteItemInput) {
   const parsed = deleteItemSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
-  const { error } = await deleteItem(parsed.data);
-  if (error) throw new Error('Failed to delete item');
-
-  revalidatePath('/admin');
+  const { data, error } = await deleteItem(parsed.data);
+  if (error) throw new Error(error.message);
+  return data;
 }
