@@ -21,7 +21,9 @@ export async function getModifierOptionsAction(modifier_group_id: string) {
   return data;
 }
 
-export async function createModifierOptionAction(payload: CreateModifierOptionInput) {
+export async function createModifierOptionAction(
+  payload: CreateModifierOptionInput
+) {
   const parsed = createModifierOptionSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
@@ -30,7 +32,9 @@ export async function createModifierOptionAction(payload: CreateModifierOptionIn
   return data;
 }
 
-export async function updateModifierOptionAction(payload: UpdateModifierOptionInput) {
+export async function updateModifierOptionAction(
+  payload: UpdateModifierOptionInput
+) {
   const parsed = updateModifierOptionSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
@@ -39,7 +43,9 @@ export async function updateModifierOptionAction(payload: UpdateModifierOptionIn
   return data;
 }
 
-export async function deleteModifierOptionAction(payload: DeleteModifierOptionInput) {
+export async function deleteModifierOptionAction(
+  payload: DeleteModifierOptionInput
+) {
   const parsed = deleteModifierOptionSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 

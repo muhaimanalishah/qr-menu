@@ -22,6 +22,12 @@ export const deleteModifierGroupSchema = z.object({
   id: z.uuid(),
 });
 
-export type CreateModifierGroupInput = z.infer<typeof createModifierGroupSchema>;
-export type UpdateModifierGroupInput = z.infer<typeof updateModifierGroupSchema>;
-export type DeleteModifierGroupInput = z.infer<typeof deleteModifierGroupSchema>;
+export type CreateModifierGroupInput = z.infer<
+  typeof createModifierGroupSchema
+>;
+export type UpdateModifierGroupInput = z.infer<
+  typeof updateModifierGroupSchema
+>;
+export type DeleteModifierGroupInput = z.infer<
+  typeof deleteModifierGroupSchema
+>;

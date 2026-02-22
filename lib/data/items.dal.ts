@@ -16,11 +16,7 @@ export async function getItems(category_id: string) {
 
 export async function getItemById(id: string) {
   const supabase = await createClient();
-  return await supabase
-    .from('items')
-    .select('*')
-    .eq('id', id)
-    .single();
+  return await supabase.from('items').select('*').eq('id', id).single();
 }
 
 export async function createItem(payload: CreateItemInput) {

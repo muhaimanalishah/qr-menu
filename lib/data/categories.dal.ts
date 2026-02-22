@@ -16,11 +16,7 @@ export async function getCategories(restaurant_id: string) {
 
 export async function getCategoryById(id: string) {
   const supabase = await createClient();
-  return await supabase
-    .from('categories')
-    .select('*')
-    .eq('id', id)
-    .single();
+  return await supabase.from('categories').select('*').eq('id', id).single();
 }
 
 export async function createCategory(payload: CreateCategoryInput) {

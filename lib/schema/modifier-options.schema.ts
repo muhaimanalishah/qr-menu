@@ -18,6 +18,12 @@ export const deleteModifierOptionSchema = z.object({
   id: z.uuid(),
 });
 
-export type CreateModifierOptionInput = z.infer<typeof createModifierOptionSchema>;
-export type UpdateModifierOptionInput = z.infer<typeof updateModifierOptionSchema>;
-export type DeleteModifierOptionInput = z.infer<typeof deleteModifierOptionSchema>;
+export type CreateModifierOptionInput = z.infer<
+  typeof createModifierOptionSchema
+>;
+export type UpdateModifierOptionInput = z.infer<
+  typeof updateModifierOptionSchema
+>;
+export type DeleteModifierOptionInput = z.infer<
+  typeof deleteModifierOptionSchema
+>;

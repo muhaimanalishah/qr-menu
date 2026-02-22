@@ -17,11 +17,7 @@ export async function createUser({
 export async function getUserById(id: string) {
   await getAuthenticatedUser();
   const supabase = await createClient();
-  return await supabase
-    .from('users')
-    .select('*')
-    .eq('id', id)
-    .single();
+  return await supabase.from('users').select('*').eq('id', id).single();
 }
 
 export async function updateUser({

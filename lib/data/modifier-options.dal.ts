@@ -20,7 +20,10 @@ export async function createModifierOption(payload: CreateModifierOptionInput) {
   return await supabase.from('modifier_options').insert(payload);
 }
 
-export async function updateModifierOption({ id, ...payload }: UpdateModifierOptionInput) {
+export async function updateModifierOption({
+  id,
+  ...payload
+}: UpdateModifierOptionInput) {
   await getAuthenticatedUser();
   const supabase = await createClient();
   return await supabase.from('modifier_options').update(payload).eq('id', id);

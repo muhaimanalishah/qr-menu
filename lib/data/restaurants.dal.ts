@@ -24,13 +24,19 @@ export async function getRestaurantBySlug(slug: string) {
     .single();
 }
 
-export async function createRestaurant(payload: CreateRestaurantInput, owner_id: string) {
+export async function createRestaurant(
+  payload: CreateRestaurantInput,
+  owner_id: string
+) {
   await getAuthenticatedUser();
   const supabase = await createClient();
   return await supabase.from('restaurants').insert({ ...payload, owner_id });
 }
 
-export async function updateRestaurant({ id, ...payload }: UpdateRestaurantInput) {
+export async function updateRestaurant({
+  id,
+  ...payload
+}: UpdateRestaurantInput) {
   await getAuthenticatedUser();
   const supabase = await createClient();
   return await supabase.from('restaurants').update(payload).eq('id', id);

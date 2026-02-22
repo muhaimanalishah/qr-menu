@@ -20,7 +20,10 @@ export async function createModifierGroup(payload: CreateModifierGroupInput) {
   return await supabase.from('modifier_groups').insert(payload);
 }
 
-export async function updateModifierGroup({ id, ...payload }: UpdateModifierGroupInput) {
+export async function updateModifierGroup({
+  id,
+  ...payload
+}: UpdateModifierGroupInput) {
   await getAuthenticatedUser();
   const supabase = await createClient();
   return await supabase.from('modifier_groups').update(payload).eq('id', id);

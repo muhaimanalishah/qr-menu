@@ -2,9 +2,13 @@ import { z } from 'zod';
 
 export const createRestaurantSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  slug: z.string()
+  slug: z
+    .string()
     .min(1, 'Slug is required')
-    .regex(/^[a-z0-9-]+$/, 'Slug must be lowercase, no spaces, and only contain alphanumeric characters or hyphens'),
+    .regex(
+      /^[a-z0-9-]+$/,
+      'Slug must be lowercase, no spaces, and only contain alphanumeric characters or hyphens'
+    ),
   description: z.string().optional(),
   cuisine_type: z.string().optional(),
   phone: z.string().optional(),
@@ -18,7 +22,10 @@ export const createRestaurantSchema = z.object({
 export const updateRestaurantSchema = z.object({
   id: z.uuid(),
   name: z.string().min(1).optional(),
-  slug: z.string().regex(/^[a-z0-9-]+$/).optional(),
+  slug: z
+    .string()
+    .regex(/^[a-z0-9-]+$/)
+    .optional(),
   description: z.string().optional(),
   cuisine_type: z.string().optional(),
   phone: z.string().optional(),

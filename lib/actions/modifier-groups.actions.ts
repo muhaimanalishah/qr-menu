@@ -21,7 +21,9 @@ export async function getModifierGroupsAction(item_id: string) {
   return data;
 }
 
-export async function createModifierGroupAction(payload: CreateModifierGroupInput) {
+export async function createModifierGroupAction(
+  payload: CreateModifierGroupInput
+) {
   const parsed = createModifierGroupSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
@@ -30,7 +32,9 @@ export async function createModifierGroupAction(payload: CreateModifierGroupInpu
   return data;
 }
 
-export async function updateModifierGroupAction(payload: UpdateModifierGroupInput) {
+export async function updateModifierGroupAction(
+  payload: UpdateModifierGroupInput
+) {
   const parsed = updateModifierGroupSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
@@ -39,7 +43,9 @@ export async function updateModifierGroupAction(payload: UpdateModifierGroupInpu
   return data;
 }
 
-export async function deleteModifierGroupAction(payload: DeleteModifierGroupInput) {
+export async function deleteModifierGroupAction(
+  payload: DeleteModifierGroupInput
+) {
   const parsed = deleteModifierGroupSchema.safeParse(payload);
   if (!parsed.success) throw new Error('Invalid payload');
 
