@@ -1,36 +1,40 @@
-import { useMutation } from '@tanstack/react-query';
-import {
-  CreateCategoryInput,
-  DeleteCategoryInput,
-  UpdateCategoryInput,
-} from '../schema/categories.schema';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   createCategoryAction,
   deleteCategoryAction,
+  getCategoriesAction,
+  getCategoryByIdAction,
   updateCategoryAction,
 } from '../actions/categories.actions';
-import { toast } from 'sonner';
+
+export function useCategories(restaurant_id: string) {
+  return useQuery({
+    queryKey: ['categories', restaurant_id],
+    queryFn: () => getCategoriesAction(restaurant_id),
+  });
+}
+
+export function useCategoryById(id: string) {
+  return useQuery({
+    queryKey: ['category', id],
+    queryFn: () => getCategoryByIdAction(id),
+  });
+}
 
 export function useCreateCategory() {
   return useMutation({
-    mutationFn: (payload: CreateCategoryInput) => createCategoryAction(payload),
-    onSuccess: () => toast.success('Category created successfully!'),
-    onError: (error) => toast.error(error.message),
+    mutationFn: createCategoryAction,
   });
 }
 
 export function useUpdateCategory() {
   return useMutation({
-    mutationFn: (payload: UpdateCategoryInput) => updateCategoryAction(payload),
-    onSuccess: () => toast.success('Category updated successfully!'),
-    onError: (error) => toast.error(error.message),
+    mutationFn: updateCategoryAction,
   });
 }
 
 export function useDeleteCategory() {
   return useMutation({
-    mutationFn: (payload: DeleteCategoryInput) => deleteCategoryAction(payload),
-    onSuccess: () => toast.success('Category deleted successfully!'),
-    onError: (error) => toast.error(error.message),
+    mutationFn: deleteCategoryAction,
   });
 }
