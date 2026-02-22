@@ -1,6 +1,7 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,15 +12,14 @@ import {
 } from '@/components/ui/card';
 import {
   Field,
-  FieldDescription,
-  FieldGroup,
   FieldLabel,
+  FieldError,
+  FieldGroup,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useEmailSignIn } from '@/lib/hooks/useAuth';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { signInInput, signInSchema } from '@/lib/schema/auth.schema';
+import { cn } from '@/lib/utils';
 
 export function SignInForm({
   className,
@@ -27,7 +27,7 @@ export function SignInForm({
 }: React.ComponentProps<'div'>) {
   const { mutate, isPending } = useEmailSignIn();
 
-  const form = useForm({
+  const form = useForm<signInInput>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
@@ -36,7 +36,7 @@ export function SignInForm({
   });
 
   const onSubmit = (data: signInInput) => {
-    mutate(data, { onSuccess: () => form.reset() });
+    mutate(data);
   };
 
   return (
@@ -51,41 +51,61 @@ export function SignInForm({
         <CardContent>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  {...form.register('email')}
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="email">Email</FieldLabel>
+                    <Input
+                      {...field}
+                      id="email"
+                      placeholder="m@example.com"
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+              <div className="flex flex-col gap-2">
+                <Controller
+                  name="password"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="password">Password</FieldLabel>
+                      <Input
+                        {...field}
+                        id="password"
+                        type="password"
+                        aria-invalid={fieldState.invalid}
+                      />
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </Field>
+                  )}
                 />
-              </Field>
-              <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
+                <div className="flex justify-end">
                   <a
                     href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    className="text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
                   </a>
                 </div>
-                <Input
-                  {...form.register('password')}
-                  id="password"
-                  type="password"
-                  required
-                />
-              </Field>
-              <Field>
-                <Button type="submit" disabled={isPending}>
-                  {isPending ? 'Logging in...' : 'Login'}
-                </Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="/signup">Sign up</a>
-                </FieldDescription>
-              </Field>
+              </div>
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? 'Logging in...' : 'Login'}
+              </Button>
+              <div className="text-center text-sm">
+                Don&apos;t have an account?{' '}
+                <a href="/signup" className="underline underline-offset-4">
+                  Sign up
+                </a>
+              </div>
             </FieldGroup>
           </form>
         </CardContent>

@@ -6,7 +6,7 @@ import {
   getMenuBySlug,
   getMenusByRestaurant,
   updateMenu,
-} from '../data/menus.dal';
+} from '../data/menuts.dal';
 import {
   CreateMenuInput,
   createMenuSchema,
