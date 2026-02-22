@@ -18,3 +18,17 @@ export async function signOut() {
   const supabase = await createClient();
   return await supabase.auth.signOut();
 }
+
+export async function getAuthenticatedUser() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    throw new Error('Unauthorized');
+  }
+
+  return user;
+}
