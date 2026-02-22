@@ -36,5 +36,6 @@ export const updateRestaurantSchema = z.object({
   primary_color: z.string().optional(),
 });
 
+export type RestaurantFormValues = z.input<typeof createRestaurantSchema>;
 export type CreateRestaurantInput = z.infer<typeof createRestaurantSchema>;
 export type UpdateRestaurantInput = z.infer<typeof updateRestaurantSchema>;
