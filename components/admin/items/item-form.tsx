@@ -6,7 +6,12 @@ import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Field, FieldLabel, FieldError, FieldGroup } from '@/components/ui/field';
+import {
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldGroup,
+} from '@/components/ui/field';
 import { useCreateItem, useUpdateItem } from '@/lib/hooks/useItems';
 import { Tables } from '@/lib/types/supabase.types';
 
@@ -29,7 +34,11 @@ interface ItemFormProps {
   categories: Tables<'categories'>[];
 }
 
-export function ItemForm({ restaurantId, initialData, categories }: ItemFormProps) {
+export function ItemForm({
+  restaurantId,
+  initialData,
+  categories,
+}: ItemFormProps) {
   const router = useRouter();
   const isEdit = !!initialData;
 
@@ -57,10 +66,7 @@ export function ItemForm({ restaurantId, initialData, categories }: ItemFormProp
         { onSuccess: () => router.push('/admin/items') }
       );
     } else {
-      createItem(
-        { ...data },
-        { onSuccess: () => router.push('/admin/items') }
-      );
+      createItem({ ...data }, { onSuccess: () => router.push('/admin/items') });
     }
   };
 
@@ -101,7 +107,9 @@ export function ItemForm({ restaurantId, initialData, categories }: ItemFormProp
                   placeholder="0.00"
                   aria-invalid={fieldState.invalid}
                 />
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
               </Field>
             )}
           />
@@ -125,7 +133,9 @@ export function ItemForm({ restaurantId, initialData, categories }: ItemFormProp
                     </option>
                   ))}
                 </select>
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
               </Field>
             )}
           />
@@ -136,7 +146,9 @@ export function ItemForm({ restaurantId, initialData, categories }: ItemFormProp
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="description">Description (Optional)</FieldLabel>
+              <FieldLabel htmlFor="description">
+                Description (Optional)
+              </FieldLabel>
               <Input
                 {...field}
                 id="description"

@@ -11,7 +11,9 @@ export default async function RestaurantPage() {
       <div>
         <h1 className="text-2xl font-semibold">Restaurant</h1>
         <p className="text-muted-foreground text-sm mt-1">
-          {restaurant ? 'Update your restaurant details' : 'Set up your restaurant'}
+          {restaurant
+            ? 'Update your restaurant details'
+            : 'Set up your restaurant'}
         </p>
       </div>
       <RestaurantForm restaurant={restaurant ?? null} />

@@ -3,8 +3,16 @@
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Field, FieldLabel, FieldError, FieldGroup } from '@/components/ui/field';
-import { CreateRestaurantInput, RestaurantFormValues } from '@/lib/schema/restaurants.schema';
+import {
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldGroup,
+} from '@/components/ui/field';
+import {
+  CreateRestaurantInput,
+  RestaurantFormValues,
+} from '@/lib/schema/restaurants.schema';
 
 interface StepTwoProps {
   form: UseFormReturn<RestaurantFormValues, unknown, CreateRestaurantInput>;
@@ -64,7 +72,9 @@ export function StepTwo({ form, onSubmit, onSkip, isPending }: StepTwoProps) {
                   placeholder="+1 234 567 8900"
                   aria-invalid={fieldState.invalid}
                 />
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
               </Field>
             )}
           />
@@ -74,7 +84,9 @@ export function StepTwo({ form, onSubmit, onSkip, isPending }: StepTwoProps) {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="language_direction">Language Direction</FieldLabel>
+                <FieldLabel htmlFor="language_direction">
+                  Language Direction
+                </FieldLabel>
                 <select
                   {...field}
                   id="language_direction"
@@ -84,7 +96,9 @@ export function StepTwo({ form, onSubmit, onSkip, isPending }: StepTwoProps) {
                   <option value="ltr">Left to Right (LTR)</option>
                   <option value="rtl">Right to Left (RTL)</option>
                 </select>
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
               </Field>
             )}
           />

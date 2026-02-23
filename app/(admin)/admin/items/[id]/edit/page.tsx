@@ -28,10 +28,10 @@ export default async function EditItemPage({
           Update the details for {item.name}.
         </p>
       </div>
-      <ItemForm 
-        restaurantId={restaurant!.id} 
-        initialData={item} 
-        categories={categories ?? []} 
+      <ItemForm
+        restaurantId={restaurant!.id}
+        initialData={item}
+        categories={categories ?? []}
       />
     </div>
   );

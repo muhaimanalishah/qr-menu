@@ -3,8 +3,16 @@
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Field, FieldLabel, FieldError, FieldGroup } from '@/components/ui/field';
-import { CreateRestaurantInput, RestaurantFormValues } from '@/lib/schema/restaurants.schema';
+import {
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldGroup,
+} from '@/components/ui/field';
+import {
+  CreateRestaurantInput,
+  RestaurantFormValues,
+} from '@/lib/schema/restaurants.schema';
 
 interface StepOneProps {
   form: UseFormReturn<RestaurantFormValues, unknown, CreateRestaurantInput>;

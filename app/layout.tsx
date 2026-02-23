@@ -25,9 +25,7 @@ export default function RootLayout({
     <html lang="en" className={nunito.variable}>
       <body className="antialiased">
         <QueryProvider>
-          <TooltipProvider>
-            {children}
-          </TooltipProvider>
+          <TooltipProvider>{children}</TooltipProvider>
           <Toaster />
         </QueryProvider>
       </body>

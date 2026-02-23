@@ -9,19 +9,18 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  
   let user;
 
   try {
     user = await getAuthenticatedUser();
   } catch (error) {
-    redirect("/login");
+    redirect('/login');
   }
-  
+
   const { data: restaurant } = await getRestaurantByOwner(user.id);
 
   if (!restaurant) {
-    redirect("/setup");
+    redirect('/setup');
   }
 
   return (

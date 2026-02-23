@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 
 export default async function SetupPage() {
   let user;
-  
+
   try {
     user = await getAuthenticatedUser();
   } catch (error) {

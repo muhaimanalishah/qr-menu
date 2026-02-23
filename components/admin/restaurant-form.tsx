@@ -4,8 +4,16 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Field, FieldLabel, FieldError, FieldGroup } from '@/components/ui/field';
-import { useCreateRestaurant, useUpdateRestaurant } from '@/lib/hooks/useRestaurants';
+import {
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldGroup,
+} from '@/components/ui/field';
+import {
+  useCreateRestaurant,
+  useUpdateRestaurant,
+} from '@/lib/hooks/useRestaurants';
 import {
   createRestaurantSchema,
   RestaurantFormValues,
@@ -43,7 +51,8 @@ export function RestaurantForm({ restaurant }: Props) {
       address: restaurant?.address ?? '',
       website: restaurant?.website ?? '',
       currency: restaurant?.currency ?? 'USD',
-      language_direction: restaurant?.language_direction as 'ltr' | 'rtl' ?? 'ltr',
+      language_direction:
+        (restaurant?.language_direction as 'ltr' | 'rtl') ?? 'ltr',
     },
   });
 

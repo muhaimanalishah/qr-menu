@@ -6,8 +6,16 @@ import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Field, FieldLabel, FieldError, FieldGroup } from '@/components/ui/field';
-import { useCreateCategory, useUpdateCategory } from '@/lib/hooks/useCategories';
+import {
+  Field,
+  FieldLabel,
+  FieldError,
+  FieldGroup,
+} from '@/components/ui/field';
+import {
+  useCreateCategory,
+  useUpdateCategory,
+} from '@/lib/hooks/useCategories';
 import { Tables } from '@/lib/types/supabase.types';
 
 const categoryFormSchema = z.object({
@@ -80,7 +88,9 @@ export function CategoryForm({ restaurantId, initialData }: CategoryFormProps) {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="description">Description (Optional)</FieldLabel>
+              <FieldLabel htmlFor="description">
+                Description (Optional)
+              </FieldLabel>
               <Input
                 {...field}
                 id="description"
