@@ -7,7 +7,7 @@ import {
   updateRestaurantAction,
 } from '../actions/restaurants.actions';
 import { toast } from 'sonner';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export function useRestaurantByOwner(owner_id: string) {
   return useQuery({
