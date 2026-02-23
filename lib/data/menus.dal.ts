@@ -15,6 +15,11 @@ export async function getMenusByRestaurant(restaurant_id: string) {
     .eq('restaurant_id', restaurant_id);
 }
 
+export async function getMenuById(id: string) {
+  const supabase = await createClient();
+  return await supabase.from('menus').select('*').eq('id', id).single();
+}
+
 export async function getMenuBySlug(restaurant_id: string, slug: string) {
   const supabase = await createClient();
   return await supabase

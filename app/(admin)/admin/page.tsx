@@ -7,14 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { BookOpen, UtensilsCrossed, QrCode } from 'lucide-react';
-import { redirect } from 'next/navigation';
 
 export default async function AdminDashboard() {
   const user = await getAuthenticatedUser();
   const { data: restaurant } = await getRestaurantByOwner(user.id);
-  if (!restaurant) {
-    redirect("/admin/restaurant");
-  }
   const { data: menus } = await getMenusByRestaurant(restaurant!.id);
   const { data: categories } = await getCategories(restaurant!.id);
   const { data: items } = await getItemsByRestaurant(restaurant!.id);
