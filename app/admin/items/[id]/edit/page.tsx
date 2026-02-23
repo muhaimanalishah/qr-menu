@@ -29,7 +29,6 @@ export default async function EditItemPage({
         </p>
       </div>
       <ItemForm
-        restaurantId={restaurant!.id}
         initialData={item}
         categories={categories ?? []}
       />

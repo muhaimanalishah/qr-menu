@@ -17,7 +17,6 @@ export default async function NewItemPage() {
         </p>
       </div>
       <ItemForm
-        restaurantId={restaurant!.id}
         initialData={null}
         categories={categories ?? []}
       />

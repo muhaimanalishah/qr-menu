@@ -27,6 +27,7 @@ export const deleteItemSchema = z.object({
   id: z.uuid(),
 });
 
+export type ItemFormInput = z.input<typeof createItemSchema>;
 export type CreateItemInput = z.infer<typeof createItemSchema>;
 export type UpdateItemInput = z.infer<typeof updateItemSchema>;
 export type DeleteItemInput = z.infer<typeof deleteItemSchema>;

@@ -2,7 +2,6 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,29 +12,16 @@ import {
   FieldGroup,
 } from '@/components/ui/field';
 import { useCreateItem, useUpdateItem } from '@/lib/hooks/useItems';
-import { Tables } from '@/lib/types/supabase.types';
-
-const itemFormSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(100, 'Name is too long'),
-  description: z.string().optional(),
-  base_price: z.coerce.number().min(0, 'Price must be at least 0'),
-  category_id: z.string().min(1, 'Please select a category'),
-  image_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-  available: z.boolean().default(true),
-  sold_out: z.boolean().default(false),
-});
-
-type FormInput = z.input<typeof itemFormSchema>;
-type FormOutput = z.infer<typeof itemFormSchema>;
+import { Item } from '@/lib/types/items.types';
+import { Category } from '@/lib/types/categories.types';
+import { CreateItemInput, createItemSchema, ItemFormInput } from '@/lib/schema/items.schema';
 
 interface ItemFormProps {
-  restaurantId: string;
-  initialData: Tables<'items'> | null;
-  categories: Tables<'categories'>[];
+  initialData: Item | null;
+  categories: Category[];
 }
 
 export function ItemForm({
-  restaurantId,
   initialData,
   categories,
 }: ItemFormProps) {
@@ -46,8 +32,8 @@ export function ItemForm({
   const { mutate: updateItem, isPending: isUpdating } = useUpdateItem();
   const isPending = isCreating || isUpdating;
 
-  const form = useForm<FormInput, unknown, FormOutput>({
-    resolver: zodResolver(itemFormSchema),
+  const form = useForm<ItemFormInput, unknown, CreateItemInput>({
+    resolver: zodResolver(createItemSchema),
     defaultValues: {
       name: initialData?.name ?? '',
       description: initialData?.description ?? '',
@@ -59,7 +45,7 @@ export function ItemForm({
     },
   });
 
-  const onSubmit = (data: FormOutput) => {
+const onSubmit = (data: CreateItemInput) => {
     if (isEdit) {
       updateItem(
         { id: initialData.id, ...data },
