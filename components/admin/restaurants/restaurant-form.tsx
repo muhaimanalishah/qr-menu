@@ -19,19 +19,12 @@ import {
   RestaurantFormValues,
   CreateRestaurantInput,
 } from '@/lib/schema/restaurants.schema';
-import { Tables } from '@/lib/types/supabase.types';
+import { slugify } from '@/lib/utils';
+import { Restaurant } from '@/lib/types/restaurants.types';
 
 type Props = {
-  restaurant: Tables<'restaurants'> | null;
+  restaurant: Restaurant | null;
 };
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-');
-}
 
 export function RestaurantForm({ restaurant }: Props) {
   const isEdit = !!restaurant;
