@@ -1,6 +1,6 @@
 import { getAuthenticatedUser } from '@/lib/data/auth.dal';
 import { getRestaurantByOwner } from '@/lib/data/restaurants.dal';
-import { RestaurantForm } from '@/components/admin/restaurant-form';
+import { RestaurantForm } from '@/components/admin/restaurant/restaurant-form';
 
 export default async function RestaurantPage() {
   const user = await getAuthenticatedUser();

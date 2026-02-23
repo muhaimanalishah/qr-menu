@@ -2,7 +2,7 @@ import { getAuthenticatedUser } from '@/lib/data/auth.dal';
 import { getRestaurantByOwner } from '@/lib/data/restaurants.dal';
 import { getMenuById } from '@/lib/data/menus.dal';
 import { redirect } from 'next/navigation';
-import { MenuForm } from '@/components/admin/menu-form';
+import { MenuForm } from '@/components/admin/menus/menu-form';
 
 export default async function EditMenuPage({
   params,
