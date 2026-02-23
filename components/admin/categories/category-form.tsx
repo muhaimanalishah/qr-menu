@@ -2,7 +2,6 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,20 +15,11 @@ import {
   useCreateCategory,
   useUpdateCategory,
 } from '@/lib/hooks/useCategories';
-import { Tables } from '@/lib/types/supabase.types';
-
-const categoryFormSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  description: z.string().optional(),
-  image_url: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-});
-
-type FormInput = z.input<typeof categoryFormSchema>;
-type FormOutput = z.infer<typeof categoryFormSchema>;
-
+import { createCategorySchema, CategoryFormInput, CreateCategoryInput } from '@/lib/schema/categories.schema';
+import { Category } from '@/lib/types/categories.types';
 interface CategoryFormProps {
   restaurantId: string;
-  initialData: Tables<'categories'> | null;
+  initialData: Category | null;
 }
 
 export function CategoryForm({ restaurantId, initialData }: CategoryFormProps) {
@@ -40,16 +30,17 @@ export function CategoryForm({ restaurantId, initialData }: CategoryFormProps) {
   const { mutate: updateCategory, isPending: isUpdating } = useUpdateCategory();
   const isPending = isCreating || isUpdating;
 
-  const form = useForm<FormInput, unknown, FormOutput>({
-    resolver: zodResolver(categoryFormSchema),
+  const form = useForm<CategoryFormInput, unknown, CreateCategoryInput>({
+    resolver: zodResolver(createCategorySchema),
     defaultValues: {
+      restaurant_id: restaurantId,
       name: initialData?.name ?? '',
       description: initialData?.description ?? '',
       image_url: initialData?.image_url ?? '',
     },
   });
 
-  const onSubmit = (data: FormOutput) => {
+  const onSubmit = (data: CategoryFormInput) => {
     if (isEdit) {
       updateCategory(
         { id: initialData.id, ...data },
@@ -57,7 +48,7 @@ export function CategoryForm({ restaurantId, initialData }: CategoryFormProps) {
       );
     } else {
       createCategory(
-        { restaurant_id: restaurantId, ...data },
+        data,
         { onSuccess: () => router.push('/admin/categories') }
       );
     }
