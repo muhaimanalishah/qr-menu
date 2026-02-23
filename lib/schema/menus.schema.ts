@@ -27,6 +27,7 @@ export const deleteMenuSchema = z.object({
   id: z.uuid(),
 });
 
+export type MenuFormInput = z.input<typeof createMenuSchema>;
 export type CreateMenuInput = z.infer<typeof createMenuSchema>;
 export type UpdateMenuInput = z.infer<typeof updateMenuSchema>;
 export type DeleteMenuInput = z.infer<typeof deleteMenuSchema>;

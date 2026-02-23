@@ -2,7 +2,6 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,35 +12,13 @@ import {
   FieldGroup,
 } from '@/components/ui/field';
 import { useCreateMenu, useUpdateMenu } from '@/lib/hooks/useMenus';
-import { Tables } from '@/lib/types/supabase.types';
-
-// UI-specific schema to avoid conflicts with the DAL schemas
-const menuFormSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  slug: z
-    .string()
-    .min(1, 'Slug is required')
-    .regex(
-      /^[a-z0-9-]+$/,
-      'Slug must be lowercase, no spaces, and only contain alphanumeric characters or hyphens'
-    ),
-  is_active: z.boolean().default(true),
-});
-
-type FormInput = z.input<typeof menuFormSchema>;
-type FormOutput = z.infer<typeof menuFormSchema>;
+import { Menu } from '@/lib/types/menus.types';
+import { createMenuSchema, MenuFormInput, CreateMenuInput } from '@/lib/schema/menus.schema';
+import { slugify } from '@/lib/utils';
 
 interface MenuFormProps {
   restaurantId: string;
-  initialData: Tables<'menus'> | null;
-}
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-');
+  initialData: Menu | null;
 }
 
 export function MenuForm({ restaurantId, initialData }: MenuFormProps) {
@@ -52,16 +29,17 @@ export function MenuForm({ restaurantId, initialData }: MenuFormProps) {
   const { mutate: updateMenu, isPending: isUpdating } = useUpdateMenu();
   const isPending = isCreating || isUpdating;
 
-  const form = useForm<FormInput, unknown, FormOutput>({
-    resolver: zodResolver(menuFormSchema),
+  const form = useForm<MenuFormInput, unknown, CreateMenuInput>({
+    resolver: zodResolver(createMenuSchema),
     defaultValues: {
+      restaurant_id: restaurantId,
       name: initialData?.name ?? '',
       slug: initialData?.slug ?? '',
       is_active: initialData?.is_active ?? true,
     },
   });
 
-  const onSubmit = (data: FormOutput) => {
+  const onSubmit = (data: CreateMenuInput) => {
     if (isEdit) {
       updateMenu(
         { id: initialData.id, ...data },
@@ -69,7 +47,7 @@ export function MenuForm({ restaurantId, initialData }: MenuFormProps) {
       );
     } else {
       createMenu(
-        { restaurant_id: restaurantId, ...data },
+        data,
         { onSuccess: () => router.push('/admin/menus') }
       );
     }
