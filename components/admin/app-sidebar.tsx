@@ -21,6 +21,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { useSignOut } from '@/lib/hooks/useAuth';
@@ -37,15 +39,29 @@ const navItems = [
 export function AppSidebar({ email }: { email: string }) {
   const pathname = usePathname();
   const { mutate: signOut, isPending } = useSignOut();
+  const { state, toggleSidebar } = useSidebar();
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar 
+      collapsible="icon"
+      onClick={state === "collapsed" ? toggleSidebar : undefined}
+      className={state === "collapsed" ? "cursor-pointer" : ""}
+    >
       <SidebarHeader className="p-4">
-        <div className="flex items-center gap-2">
-          <UtensilsCrossed className="h-5 w-5 shrink-0" />
-          <span className="font-semibold text-lg whitespace-nowrap group-data-[state=collapsed]:hidden">
-            QR Menu
-          </span>
+        {/* Expanded: logo + trigger */}
+        <div className="flex items-center justify-between group-data-[state=collapsed]:hidden">
+          <div className="flex items-center gap-2">
+            <UtensilsCrossed className="h-5 w-5 shrink-0" />
+            <span className="font-semibold text-lg whitespace-nowrap">
+              QR Menu
+            </span>
+          </div>
+          <SidebarTrigger />
+        </div>
+
+        {/* Collapsed: trigger only */}
+        <div className="hidden group-data-[state=collapsed]:flex justify-center">
+          <SidebarTrigger />
         </div>
       </SidebarHeader>
 

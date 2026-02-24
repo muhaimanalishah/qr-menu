@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { SidebarTrigger } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 
 interface AdminContainerProps {
@@ -21,7 +20,6 @@ export function AdminContainer({
     <div className={cn('flex flex-col h-full', className)}>
       <div className="border-b bg-background sticky top-0 z-10">
         <div className="flex items-center gap-2 px-4 py-3">
-          <SidebarTrigger />   {/* flush left, outside max-w container */}
           <div className="flex-1 mx-auto max-w-6xl flex items-center justify-between">
             {header}
             {toolbar}
