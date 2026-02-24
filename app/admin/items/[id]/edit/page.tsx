@@ -28,10 +28,7 @@ export default async function EditItemPage({
           Update the details for {item.name}.
         </p>
       </div>
-      <ItemForm
-        initialData={item}
-        categories={categories ?? []}
-      />
+      <ItemForm initialData={item} categories={categories ?? []} />
     </div>
   );
 }

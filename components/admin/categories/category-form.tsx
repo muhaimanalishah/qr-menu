@@ -15,7 +15,11 @@ import {
   useCreateCategory,
   useUpdateCategory,
 } from '@/lib/hooks/useCategories';
-import { createCategorySchema, CategoryFormInput, CreateCategoryInput } from '@/lib/schema/categories.schema';
+import {
+  createCategorySchema,
+  CategoryFormInput,
+  CreateCategoryInput,
+} from '@/lib/schema/categories.schema';
 import { Category } from '@/lib/types/categories.types';
 interface CategoryFormProps {
   restaurantId: string;
@@ -47,10 +51,9 @@ export function CategoryForm({ restaurantId, initialData }: CategoryFormProps) {
         { onSuccess: () => router.push('/admin/categories') }
       );
     } else {
-      createCategory(
-        data,
-        { onSuccess: () => router.push('/admin/categories') }
-      );
+      createCategory(data, {
+        onSuccess: () => router.push('/admin/categories'),
+      });
     }
   };
 

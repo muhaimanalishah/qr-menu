@@ -13,7 +13,11 @@ import {
 } from '@/components/ui/field';
 import { useCreateMenu, useUpdateMenu } from '@/lib/hooks/useMenus';
 import { Menu } from '@/lib/types/menus.types';
-import { createMenuSchema, MenuFormInput, CreateMenuInput } from '@/lib/schema/menus.schema';
+import {
+  createMenuSchema,
+  MenuFormInput,
+  CreateMenuInput,
+} from '@/lib/schema/menus.schema';
 import { slugify } from '@/lib/utils';
 
 interface MenuFormProps {
@@ -46,10 +50,7 @@ export function MenuForm({ restaurantId, initialData }: MenuFormProps) {
         { onSuccess: () => router.push('/admin/menus') }
       );
     } else {
-      createMenu(
-        data,
-        { onSuccess: () => router.push('/admin/menus') }
-      );
+      createMenu(data, { onSuccess: () => router.push('/admin/menus') });
     }
   };
 

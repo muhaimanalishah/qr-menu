@@ -16,10 +16,7 @@ export default async function NewItemPage() {
           Add a new food or drink item to your restaurant.
         </p>
       </div>
-      <ItemForm
-        initialData={null}
-        categories={categories ?? []}
-      />
+      <ItemForm initialData={null} categories={categories ?? []} />
     </div>
   );
 }

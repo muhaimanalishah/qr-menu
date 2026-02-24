@@ -14,17 +14,18 @@ import {
 import { useCreateItem, useUpdateItem } from '@/lib/hooks/useItems';
 import { Item } from '@/lib/types/items.types';
 import { Category } from '@/lib/types/categories.types';
-import { CreateItemInput, createItemSchema, ItemFormInput } from '@/lib/schema/items.schema';
+import {
+  CreateItemInput,
+  createItemSchema,
+  ItemFormInput,
+} from '@/lib/schema/items.schema';
 
 interface ItemFormProps {
   initialData: Item | null;
   categories: Category[];
 }
 
-export function ItemForm({
-  initialData,
-  categories,
-}: ItemFormProps) {
+export function ItemForm({ initialData, categories }: ItemFormProps) {
   const router = useRouter();
   const isEdit = !!initialData;
 
@@ -45,7 +46,7 @@ export function ItemForm({
     },
   });
 
-const onSubmit = (data: CreateItemInput) => {
+  const onSubmit = (data: CreateItemInput) => {
     if (isEdit) {
       updateItem(
         { id: initialData.id, ...data },
