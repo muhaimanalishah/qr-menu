@@ -19,18 +19,15 @@ export function AdminContainer({
 }: AdminContainerProps) {
   return (
     <div className={cn('flex flex-col h-full', className)}>
-      {/* Header section with sidebar trigger */}
       <div className="border-b bg-background sticky top-0 z-10">
-        <div className="mx-auto px-6 max-w-6xl py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <SidebarTrigger />
+        <div className="flex items-center gap-2 px-4 py-3">
+          <SidebarTrigger />   {/* flush left, outside max-w container */}
+          <div className="flex-1 mx-auto max-w-6xl flex items-center justify-between">
             {header}
+            {toolbar}
           </div>
-          {toolbar}
         </div>
       </div>
-
-      {/* Main content area */}
       <div className="flex-1 overflow-auto">
         <div className="mx-auto px-6 max-w-6xl py-6">{children}</div>
       </div>

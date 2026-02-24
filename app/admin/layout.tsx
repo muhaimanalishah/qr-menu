@@ -1,4 +1,4 @@
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/admin/app-sidebar';
 import { getAuthenticatedUser } from '@/lib/data/auth.dal';
 import { getRestaurantByOwner } from '@/lib/data/restaurants.dal';
@@ -26,7 +26,9 @@ export default async function AdminLayout({
   return (
     <SidebarProvider>
       <AppSidebar email={user.email ?? ''} />
-      <main className="flex-1 overflow-auto w-full">{children}</main>
+      <SidebarInset>
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   );
 }

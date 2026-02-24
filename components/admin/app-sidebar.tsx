@@ -22,15 +22,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { useSignOut } from '@/lib/hooks/useAuth';
-import { useSidebar } from '@/components/ui/sidebar';
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
@@ -44,14 +37,13 @@ const navItems = [
 export function AppSidebar({ email }: { email: string }) {
   const pathname = usePathname();
   const { mutate: signOut, isPending } = useSignOut();
-  const { state } = useSidebar();
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2">
-          <UtensilsCrossed className="h-5 w-5 flex-shrink-0" />
-          <span className="font-semibold text-lg whitespace-nowrap">
+          <UtensilsCrossed className="h-5 w-5 shrink-0" />
+          <span className="font-semibold text-lg whitespace-nowrap group-data-[state=collapsed]:hidden">
             QR Menu
           </span>
         </div>
@@ -63,26 +55,16 @@ export function AppSidebar({ email }: { email: string }) {
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={pathname === item.href}
-                        >
-                          <Link href={item.href}>
-                            <item.icon className="h-4 w-4" />
-                            <span>{item.label}</span>
-                          </Link>
-                        </SidebarMenuButton>
-                      </TooltipTrigger>
-                      {state === 'collapsed' && (
-                        <TooltipContent side="right">
-                          {item.label}
-                        </TooltipContent>
-                      )}
-                    </Tooltip>
-                  </TooltipProvider>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.href}
+                    tooltip={item.label}
+                  >
+                    <Link href={item.href}>
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -92,7 +74,9 @@ export function AppSidebar({ email }: { email: string }) {
 
       <SidebarFooter className="p-4">
         <div className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground truncate">{email}</p>
+          <p className="text-sm text-muted-foreground truncate group-data-[state=collapsed]:hidden">
+            {email}
+          </p>
           <Button
             variant="outline"
             size="sm"
@@ -100,8 +84,10 @@ export function AppSidebar({ email }: { email: string }) {
             disabled={isPending}
             className="w-full"
           >
-            <LogOut className="h-4 w-4 mr-2" />
-            {isPending ? 'Signing out...' : 'Sign out'}
+            <LogOut className="h-4 w-4 shrink-0" />
+            <span className="group-data-[state=collapsed]:hidden ml-2">
+              {isPending ? 'Signing out...' : 'Sign out'}
+            </span>
           </Button>
         </div>
       </SidebarFooter>
