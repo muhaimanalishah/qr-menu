@@ -3,6 +3,7 @@
 import {
   ColumnDef,
   ColumnFiltersState,
+  GlobalFilterTableState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -12,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Table,
@@ -23,8 +24,14 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-
+import { Input } from '@/components/ui/input';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+} from 'lucide-react';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -39,6 +46,17 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [debouncedGlobalFilter, setDebouncedGlobalFilter] = useState('');
+
+  // Debounce the global filter to avoid excessive re-renders
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedGlobalFilter(globalFilter);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [globalFilter]);
 
   const table = useReactTable({
     data,
@@ -50,29 +68,76 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    globalFilterFn: 'auto',
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      globalFilter: debouncedGlobalFilter,
     },
   });
 
   return (
     <div className="w-full space-y-4">
+      {/* Global search input */}
+      <Input
+        placeholder="Search all columns..."
+        value={globalFilter}
+        onChange={(e) => setGlobalFilter(e.target.value)}
+        className="max-w-sm"
+        aria-label="Search table"
+      />
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
+                  const canSort = header.column.getCanSort();
+                  const isSorted = header.column.getIsSorted();
+
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
+                      {header.isPlaceholder ? null : canSort ? (
+                        <button
+                          onClick={header.column.getToggleSortingHandler()}
+                          className="flex items-center gap-2 cursor-pointer hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded px-2 py-1"
+                          aria-sort={
+                            isSorted === 'asc'
+                              ? 'ascending'
+                              : isSorted === 'desc'
+                                ? 'descending'
+                                : 'none'
+                          }
+                          title={
+                            canSort
+                              ? isSorted
+                                ? `Click to ${isSorted === 'asc' ? 'sort descending' : isSorted === 'desc' ? 'unsort' : 'sort ascending'}`
+                                : 'Click to sort'
+                              : undefined
+                          }
+                        >
+                          {flexRender(
                             header.column.columnDef.header,
                             header.getContext()
                           )}
+                          <div className="ml-2">
+                            {isSorted === 'asc' ? (
+                              <ArrowUp className="h-4 w-4" />
+                            ) : isSorted === 'desc' ? (
+                              <ArrowDown className="h-4 w-4" />
+                            ) : (
+                              <ArrowUpDown className="h-4 w-4 opacity-40" />
+                            )}
+                          </div>
+                        </button>
+                      ) : (
+                        flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )
+                      )}
                     </TableHead>
                   );
                 })}

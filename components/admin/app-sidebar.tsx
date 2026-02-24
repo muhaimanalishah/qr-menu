@@ -22,8 +22,15 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { useSignOut } from '@/lib/hooks/useAuth';
+import { useSidebar } from '@/components/ui/sidebar';
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
@@ -37,13 +44,16 @@ const navItems = [
 export function AppSidebar({ email }: { email: string }) {
   const pathname = usePathname();
   const { mutate: signOut, isPending } = useSignOut();
+  const { state } = useSidebar();
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2">
-          <UtensilsCrossed className="h-5 w-5" />
-          <span className="font-semibold text-lg">QR Menu</span>
+          <UtensilsCrossed className="h-5 w-5 flex-shrink-0" />
+          <span className="font-semibold text-lg whitespace-nowrap">
+            QR Menu
+          </span>
         </div>
       </SidebarHeader>
 
@@ -53,12 +63,26 @@ export function AppSidebar({ email }: { email: string }) {
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <Link href={item.href}>
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={pathname === item.href}
+                        >
+                          <Link href={item.href}>
+                            <item.icon className="h-4 w-4" />
+                            <span>{item.label}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </TooltipTrigger>
+                      {state === 'collapsed' && (
+                        <TooltipContent side="right">
+                          {item.label}
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
+                  </TooltipProvider>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

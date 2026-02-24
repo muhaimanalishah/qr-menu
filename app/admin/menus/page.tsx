@@ -3,6 +3,7 @@ import { getAuthenticatedUser } from '@/lib/data/auth.dal';
 import { getRestaurantByOwner } from '@/lib/data/restaurants.dal';
 import { getMenusByRestaurant } from '@/lib/data/menus.dal';
 import { Button } from '@/components/ui/button';
+import { AdminContainer } from '@/components/admin/admin-container';
 import { MenusTable } from '@/components/admin/menus/menus-table';
 import { redirect } from 'next/navigation';
 
@@ -17,20 +18,22 @@ export default async function MenusPage() {
   const { data: menus } = await getMenusByRestaurant(restaurant.id);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
+    <AdminContainer
+      header={
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Menus</h1>
-          <p className="text-sm text-muted-foreground">
+          <h1 className="text-2xl font-semibold">Menus</h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Manage your restaurant&apos;s menus and availability.
           </p>
         </div>
+      }
+      toolbar={
         <Button asChild>
           <Link href="/admin/menus/new">Create New Menu</Link>
         </Button>
-      </div>
-
+      }
+    >
       <MenusTable menus={menus || []} />
-    </div>
+    </AdminContainer>
   );
 }

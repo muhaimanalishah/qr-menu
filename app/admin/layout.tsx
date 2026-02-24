@@ -26,7 +26,7 @@ export default async function AdminLayout({
   return (
     <SidebarProvider>
       <AppSidebar email={user.email ?? ''} />
-      <main className="flex-1 overflow-auto">{children}</main>
+      <main className="flex-1 overflow-auto w-full">{children}</main>
     </SidebarProvider>
   );
 }
